@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fahri</title>
+<style>
+  :root{
+    --bg: #ffffff;
+    --fg: #000000;
+    --mid: #888888;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]){
+      --bg: #000000;
+      --fg: #ffffff;
+      --mid: #888888;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #000000;
+    --fg: #ffffff;
+    --mid: #888888;
+  }
+  :root[data-theme="light"]{
+    --bg: #ffffff;
+    --fg: #000000;
+    --mid: #888888;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: background 0.4s ease, color 0.4s ease;
+  }
+
+  /* Loading screen */
+  #loader {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    background: var(--bg);
+    transition: opacity 0.7s ease, visibility 0.7s ease;
+    z-index: 10;
+  }
+  #loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* Rotating ring made of ticks, monochrome */
+  .loader-ring {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    animation: spin 1.6s linear infinite;
+  }
+  .loader-ring span {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 3px;
+    height: 14px;
+    margin-left: -1.5px;
+    background: var(--fg);
+    border-radius: 2px;
+    transform-origin: 1.5px 32px;
+    opacity: 0.15;
+  }
+  .loader-ring span:nth-child(1)  { transform: rotate(0deg);   opacity: 1;    }
+  .loader-ring span:nth-child(2)  { transform: rotate(30deg);  opacity: 0.85; }
+  .loader-ring span:nth-child(3)  { transform: rotate(60deg);  opacity: 0.7;  }
+  .loader-ring span:nth-child(4)  { transform: rotate(90deg);  opacity: 0.55; }
+  .loader-ring span:nth-child(5)  { transform: rotate(120deg); opacity: 0.4;  }
+  .loader-ring span:nth-child(6)  { transform: rotate(150deg); opacity: 0.3;  }
+  .loader-ring span:nth-child(7)  { transform: rotate(180deg); opacity: 0.2;  }
+  .loader-ring span:nth-child(8)  { transform: rotate(210deg); opacity: 0.15; }
+  .loader-ring span:nth-child(9)  { transform: rotate(240deg); opacity: 0.1;  }
+  .loader-ring span:nth-child(10) { transform: rotate(270deg); opacity: 0.1;  }
+  .loader-ring span:nth-child(11) { transform: rotate(300deg); opacity: 0.1;  }
+  .loader-ring span:nth-child(12) { transform: rotate(330deg); opacity: 0.1;  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .loader-text {
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--mid);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  /* Main content */
+  #content {
+    text-align: center;
+    padding: 20px;
+  }
+  h1 {
+    font-size: clamp(1.8rem, 6vw, 3rem);
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    display: inline-block;
+    clip-path: inset(0 100% 0 0);
+  }
+  #content.show h1 {
+    animation: reveal 1.1s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+  @keyframes reveal {
+    to { clip-path: inset(0 0 0 0); }
+  }
+  h1 span {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 4px;
+  }
+  h1 span::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--fg);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  #content.show h1 span::after {
+    animation: revealLine 1.1s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    animation-delay: 1.1s;
+  }
+  @keyframes revealLine {
+    to { transform: scaleX(1); }
+  }
+</style>
+</head>
+<body>
+
+  <div id="loader">
+    <div class="loader-ring">
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="loader-text">Loading</div>
+  </div>
+
+  <div id="content">
+    <h1>Holla, <span>fahri</span> is my name</h1>
+  </div>
+
+  <script>
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+        document.getElementById('content').classList.add('show');
+      }, 1500);
+    });
+  </script>
+
+</body>
+</html>
